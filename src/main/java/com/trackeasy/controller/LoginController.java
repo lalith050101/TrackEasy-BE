@@ -9,7 +9,6 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,8 +22,6 @@ import com.trackeasy.repository.JwtRepository;
 import com.trackeasy.repository.UserModelRepository;
 import com.trackeasy.service.MyUserDetailsService;
 import com.trackeasy.util.JwtUtil;
-
-@CrossOrigin(origins = "http://localhost:8081")
 
 @RestController
 public class LoginController {
@@ -72,6 +69,7 @@ public class LoginController {
             	jwtRepository.delete(jwtModel);
             }
 
+            System.out.println("before return of login");
             return ResponseEntity.ok(new AuthenticationResponse(role,true,jwt));
         }
         

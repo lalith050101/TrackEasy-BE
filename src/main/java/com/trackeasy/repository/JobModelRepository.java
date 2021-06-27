@@ -13,5 +13,8 @@ public interface JobModelRepository extends JpaRepository<JobModel,Long> {
 
 	@Query(" SELECT j FROM JobModel j join j.eligibleStudents e WHERE e.email = ?1 ")
 	List<JobModel> findEligibleJobs(String email);
+	
+	
+	List<JobModel> findByCompanyId(Long companyId);
 }
 

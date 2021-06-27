@@ -74,6 +74,14 @@ public class JobController {
 
 	  }
 	
+	@GetMapping("company/getAllJobs")
+	public ResponseEntity<List<?>> getCompanyJobs(@RequestHeader(value="Authorization") String authorizationHeader) {
+		String jwt = authorizationHeader.substring(7);
+		String email = jwtUtil.extractUsername(jwt);
+		UserModel userModel = userModelRepository.findByEmail(email).orElse(null);
+		return new ResponseEntity<List<?>>(jobModelRepository.findByCompanyId(userModel.getUserId()), HttpStatus.OK);
+	}
+	
 	@GetMapping("admin/getAllJobs")
 	public ResponseEntity<List<?>> getAllJobs() {
 		
@@ -88,6 +96,16 @@ public class JobController {
 		
 		System.out.println("email is "+email);
 		return new ResponseEntity<List<?>>(jobModelRepository.findEligibleJobs(email),HttpStatus.OK);
+	}
+	
+	@GetMapping("student/getJobDetails/{jobId}")
+	public ResponseEntity<?> getJobDetails(@PathVariable Long jobId, @RequestHeader(value="Authorization") String authorizationHeader) {
+		
+		String jwt = authorizationHeader.substring(7);
+		String email = jwtUtil.extractUsername(jwt);
+		
+		System.out.println("email is "+email);
+		return new ResponseEntity<JobModel>(jobModelRepository.findById(jobId).orElse(null),HttpStatus.OK);
 	}
 	
 	@PostMapping("student/applyJob/{jobId}")
