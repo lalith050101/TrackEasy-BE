@@ -1,5 +1,6 @@
 package com.trackeasy.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,5 @@ public interface UserModelRepository extends JpaRepository<UserModel,Long>{
   Optional<UserModel> findByUsername(String username);
   Optional<UserModel> findByEmail(String email);
   long deleteByEmail(String email);
+  List<UserModel> findByRole(String role);	
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.trackeasy.model.UserModel;
 import com.trackeasy.repository.UserModelRepository;
 
-@CrossOrigin(origins = "http://localhost:8081")
+// @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 public class SignupController {
 
@@ -35,7 +35,7 @@ public class SignupController {
       System.out.println("inside signup 3 "+user.getEmail());
       user.setActive(true);
       
-      if(user.getEmail().equals("admin") )
+      if(user.getEmail().equals("admin@trackeasy") )
       	user.setRole("admin");
       
       
