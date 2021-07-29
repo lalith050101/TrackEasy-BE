@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.trackeasy.firebase.PushNotificationService;
 import com.trackeasy.model.JobModel;
 import com.trackeasy.model.StudentModel;
 import com.trackeasy.model.UserModel;
 import com.trackeasy.repository.JobModelRepository;
+import com.trackeasy.repository.NotificationModelRepository;
 import com.trackeasy.repository.StudentModelRepository;
 import com.trackeasy.repository.UserModelRepository;
 import com.trackeasy.service.JobModelService;
+import com.trackeasy.service.NotificationService;
 import com.trackeasy.util.JwtUtil;
 
 @RestController
@@ -40,6 +43,9 @@ public class JobController {
 	@Autowired
 	private StudentModelRepository studentModelRepository;
 	
+	@Autowired
+	private PushNotificationService pushNotificationService;
+		
 	@PostMapping("company/postJob")
 	public ResponseEntity<?> postJob(@RequestHeader(value="Authorization") String authorizationHeader, @RequestBody JobModel jobModel) {
 	      System.out.println("inside post job");
@@ -52,7 +58,14 @@ public class JobController {
 		  jobModel = jobModelService.addEligibleStudents(jobModel);
 		  
 		  jobModel.setCompanyId(userModel.getUserId());
+		  
+		  String companyName = userModel.getUsername();
+
+		  
 	      
+		  pushNotificationService.sendNotification(companyName, "Posted job for " + jobModel.getJobTitle());
+		  
+		  
 	      return new ResponseEntity<JobModel>(jobModelRepository.save(jobModel), HttpStatus.CREATED);
 
 	  }
