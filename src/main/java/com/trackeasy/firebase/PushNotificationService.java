@@ -30,7 +30,7 @@ public class PushNotificationService {
     	fcmClient.send(companyName, NotificationData,data);
     }
     catch (InterruptedException | ExecutionException e) {
-    	TrackeasySpringApplication.logger.error("send chuck joke", e);
+    	TrackeasySpringApplication.logger.error("send notification method error", e);
     	
     }
   }

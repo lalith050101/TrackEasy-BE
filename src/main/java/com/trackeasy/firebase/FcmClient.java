@@ -3,6 +3,7 @@ package com.trackeasy.firebase;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -28,29 +29,27 @@ import com.trackeasy.TrackeasySpringApplication;
 public class FcmClient {
 
 	private String creds;
-	
-	@Autowired
-	private Environment env;
+
 	
   public FcmClient(@Value("${fcm.service-account-creds}") String creds, FcmSettings settings) {
 	  System.out.println("inside FcmClient constructor");
 	  
-    //Path p = Paths.get(settings.getServiceAccountFile());
+    
     System.out.println("no error in get file " + settings.getServiceAccountFile());
     
    System.out.println("no error in get creds " + settings.getServiceAccountCreds());
    
-   this.creds=creds;
-   System.out.println("creds" + this.creds);
+   
 
-  
-   // try (InputStream serviceAccount = Files.newInputStream(p)) {
+//	 Path p = Paths.get(settings.getServiceAccountFile());
+//	 try (InputStream serviceAccount = Files.newInputStream(p)) {
+   
+   this.creds=creds;
    try (InputStream serviceAccount = new ByteArrayInputStream(creds.getBytes())) {
     	System.out.println("no error in try1");
     	
       FirebaseOptions options = new FirebaseOptions.Builder()
           .setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
-    		// .setCredentials(GoogleCredentials.getApplicationDefault()).build();
       System.out.println("no error in try2");
       
     
