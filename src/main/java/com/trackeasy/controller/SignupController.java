@@ -35,10 +35,12 @@ public class SignupController {
       System.out.println("inside signup 3 "+user.getEmail());
       user.setActive(true);
       
-      if(user.getEmail().equals("admin@trackeasy") )
+      if(user.getEmail().equals("admin@trackeasy") ) {
       	user.setRole("admin");
-      
-      
+      }
+      else {
+    	  return false;
+      }
       user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
       
       System.out.println("inside signup last before "+user.getEmail());
