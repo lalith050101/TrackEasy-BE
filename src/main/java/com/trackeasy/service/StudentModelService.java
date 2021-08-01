@@ -44,6 +44,10 @@ public class StudentModelService {
 		s.setLastName(studentModel.getLastName());
 		s.setBatch(studentModel.getBatch());
 		
+		s.setDepartment(studentModel.getDepartment());
+		s.setStandingArrears(studentModel.getStandingArrears());
+		s.setHistoryOfArrears(studentModel.getHistoryOfArrears());
+		
 		s.setTenthPercentage(studentModel.getTenthPercentage());
 		s.setTwelfthPercentage(studentModel.getTwelfthPercentage());
 		s.setDegreePercentage(studentModel.getDegreePercentage());
