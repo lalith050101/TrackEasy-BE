@@ -14,6 +14,7 @@ import com.trackeasy.model.StudentModel;
 import com.trackeasy.model.UserModel;
 import com.trackeasy.repository.StudentModelRepository;
 import com.trackeasy.repository.UserModelRepository;
+import com.trackeasy.service.JobModelService;
 import com.trackeasy.service.StudentModelService;
 import com.trackeasy.util.JwtUtil;
 
@@ -35,7 +36,8 @@ public class StudentController {
 	 @Autowired
 	 private StudentModelService studentModelService;
 	 
-	 
+	 @Autowired
+		private JobModelService jobModelService;
 	 
 	 @GetMapping("student/getStudent")
 	 public ResponseEntity<?> getStudent(@RequestHeader(value="Authorization") String authorizationHeader) {
@@ -69,6 +71,8 @@ public class StudentController {
 	      StudentModel s = studentModelService.updateStudentModel(email,studentModel);
 
 	      s = studentModelRepository.save(s);
+	      
+	      jobModelService.updateEligibleList();
 	      
 	      return new ResponseEntity<StudentModel>(s , HttpStatus.CREATED);
 	      

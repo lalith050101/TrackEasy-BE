@@ -90,6 +90,8 @@ public class JobController {
 		  
 		  UserModel userModel = userModelRepository.findByEmail(email).orElse(null);
 		  
+		  jobModel = jobModelService.addEligibleStudents(jobModel);
+		  
 		  jobModel.setCompanyId(userModel.getUserId());
 		  
 	      jobModelRepository.save(jobModel);
