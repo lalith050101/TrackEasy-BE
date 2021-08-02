@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.trackeasy.dto.CompanyNotification;
 import com.trackeasy.firebase.PushNotificationService;
 import com.trackeasy.model.JobModel;
 import com.trackeasy.model.StudentModel;
@@ -45,6 +46,12 @@ public class JobController {
 	
 	@Autowired
 	private PushNotificationService pushNotificationService;
+	
+	@Autowired
+	private NotificationModelRepository notificationModelRepository;
+	
+	@Autowired
+	private NotificationService notificationService;
 		
 	@PostMapping("company/postJob")
 	public ResponseEntity<?> postJob(@RequestHeader(value="Authorization") String authorizationHeader, @RequestBody JobModel jobModel) {
@@ -60,13 +67,17 @@ public class JobController {
 		  jobModel.setCompanyId(userModel.getUserId());
 		  
 		  String companyName = userModel.getUsername();
+		  
+		  JobModel jobModelSaved = jobModelRepository.save(jobModel);
 
 		  
+		  CompanyNotification companyNotification = new CompanyNotification(jobModel.getJobId(), "Posted Job", jobModelSaved.getJobTitle());
+		  notificationModelRepository.save(notificationService.getNotificationModel(companyName, companyNotification));
 	      
 		  pushNotificationService.sendNotification(companyName, "Posted job for " + jobModel.getJobTitle());
 		  
 		  
-	      return new ResponseEntity<JobModel>(jobModelRepository.save(jobModel), HttpStatus.CREATED);
+	      return new ResponseEntity<JobModel>(jobModelSaved, HttpStatus.CREATED);
 
 	  }
 	
